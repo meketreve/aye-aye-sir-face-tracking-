@@ -1,0 +1,37 @@
+# build outputs
+/build/
+/build_windows/
+/installer/package/
+/installer/*.exe
+/dist/
+
+# CI scratch (libobs headers/import lib fetched during the Windows job)
+/obs-src/
+/obs-bin/
+obs.dll
+obs.def
+obs.lib
+exports.txt
+
+# large models fetched at build time (see scripts/fetch-models.sh / CI)
+/data/models/lbfmodel.yaml
+/data/models/headpose_mobilenetv2.onnx
+/data/models/resnet18.onnx
+/data/models/face_landmark_468.onnx
+
+# misc
+*.o
+*.obj
+*.so
+*.dll
+*.user
+compile_commands.json
+
+# personal test recordings (faces) - keep out of git
+/test/*.mp4
+/test/*.mov
+/test/*.mkv
+
+# OpenWolf local-only bookkeeping (noisy/personal — not for the public repo)
+/.wolf/token-ledger.json
+/.wolf/memory.md

@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk read *)",
+      "Bash(rtk ls *)",
+      "Bash(rtk git *)",
+      "Bash(rtk gh *)",
+      "Bash(gh run *)",
+      "Bash(grep -iE \"config|\\\\.in$\")",
+      "Bash(echo \"WATCH_EXIT=$?\")",
+      "Bash(rtk grep *)",
+      "Bash(cmake --build build -j)",
+      "Bash(git check-ignore *)",
+      "Bash(echo \"ignore_exit=$?\")",
+      "WebFetch(domain:github.com)",
+      "Bash(python3 -c \"import onnxruntime, cv2; print\\('ort', onnxruntime.__version__, 'cv2', cv2.__version__\\)\")",
+      "WebSearch",
+      "Read(//tmp/**)",
+      "Bash(curl -fsSL \"https://github.com/keijiro/FaceLandmarkBarracuda/raw/main/Packages/jp.keijiro.mediapipe.facelandmark/ONNX/face_landmark_barracuda.onnx\" -o facemesh.onnx)",
+      "Bash(python3 -)",
+      "Bash(bash scripts/fetch-models.sh)",
+      "Bash(cmake -S . -B build)",
+      "Bash(rtk curl *)",
+      "Bash(command -v jq)",
+      "Bash(jq '.bugs += [{ *)",
+      "Bash(mv /tmp/bl.json .wolf/buglog.json)",
+      "Bash(git remote *)",
+      "Bash(git checkout *)",
+      "Bash(gh release *)",
+      "Bash(gh repo *)",
+      "Bash(git grep *)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(git rm *)"
+    ]
+  }
+}

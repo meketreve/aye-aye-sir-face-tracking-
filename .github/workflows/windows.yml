@@ -1,0 +1,118 @@
+name: windows
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      obs_version:
+        description: "OBS version to build against (released tag, e.g. 31.0.3)"
+        default: "31.0.3"
+
+env:
+  OPENCV_VERSION: "4.10.0"
+  OPENCV_DLL: "opencv_world4100.dll"
+  ORT_VERSION: "1.20.1"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      OBS_VERSION: ${{ github.event.inputs.obs_version || '31.0.3' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch head-pose model
+        shell: bash
+        run: bash scripts/fetch-models.sh
+
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      # --- OpenCV (official prebuilt, no vcpkg) ---
+      - name: Download OpenCV
+        shell: pwsh
+        run: |
+          $url = "https://github.com/opencv/opencv/releases/download/$env:OPENCV_VERSION/opencv-$env:OPENCV_VERSION-windows.exe"
+          curl.exe -fL $url -o opencv.exe
+          7z x opencv.exe -oocv -y | Out-Null
+          "OpenCV_DIR=$(Resolve-Path ocv/opencv/build)" | Out-File $env:GITHUB_ENV -Append
+
+      # --- onnxruntime (official prebuilt, no vcpkg) ---
+      - name: Download onnxruntime
+        shell: pwsh
+        run: |
+          $url = "https://github.com/microsoft/onnxruntime/releases/download/v$env:ORT_VERSION/onnxruntime-win-x64-$env:ORT_VERSION.zip"
+          curl.exe -fL $url -o ort.zip
+          Expand-Archive ort.zip -DestinationPath ort -Force
+          "ORT_ROOT=$(Resolve-Path ort/onnxruntime-win-x64-$env:ORT_VERSION)" | Out-File $env:GITHUB_ENV -Append
+
+      # --- libobs: source headers + import lib from obs.dll ---
+      - name: Get libobs
+        shell: pwsh
+        run: |
+          $ver = $env:OBS_VERSION
+          git clone --depth 1 --branch $ver https://github.com/obsproject/obs-studio obs-src
+          # libobs headers #include <obsconfig.h>, generated from obsconfig.h.in.
+          # (obs-config.h with the dash is a separate, already-committed version header.)
+          $txt = Get-Content obs-src/libobs/obsconfig.h.in -Raw
+          $txt = $txt -replace '(?m)^\s*#cmakedefine.*$',''
+          $txt = $txt.Replace('@OBS_RELEASE_CANDIDATE@','0').Replace('@OBS_BETA@','0')
+          $txt = [regex]::Replace($txt,'@[A-Za-z0-9_]+@','')
+          Set-Content obs-src/libobs/obsconfig.h $txt -Encoding ascii
+          $zip = "OBS-Studio-$ver-Windows.zip"
+          curl.exe -fL "https://github.com/obsproject/obs-studio/releases/download/$ver/$zip" -o $zip
+          Expand-Archive $zip -DestinationPath obs-bin -Force
+          $dll = (Get-ChildItem -Recurse obs-bin -Filter obs.dll | Select-Object -First 1).FullName
+          Copy-Item $dll obs.dll
+          dumpbin /exports obs.dll > exports.txt
+          $names = Select-String -Path exports.txt -Pattern '^\s+\d+\s+[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+(\S+)' |
+                   ForEach-Object { $_.Matches[0].Groups[1].Value }
+          "EXPORTS" | Out-File obs.def -Encoding ascii
+          $names | Out-File obs.def -Append -Encoding ascii
+          lib /def:obs.def /machine:x64 /out:obs.lib
+          "LIBOBS_INC=$((Resolve-Path obs-src/libobs).Path)" | Out-File $env:GITHUB_ENV -Append
+          "LIBOBS_LIB=$((Resolve-Path obs.lib).Path)" | Out-File $env:GITHUB_ENV -Append
+
+      - name: Configure
+        shell: pwsh
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64 `
+            -DOpenCV_DIR="$env:OpenCV_DIR" `
+            -DORT_ROOT="$env:ORT_ROOT" `
+            -DLIBOBS_INCLUDE_DIR="$env:LIBOBS_INC" `
+            -DLIBOBS_LIB="$env:LIBOBS_LIB"
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Stage + bundle runtime DLLs
+        shell: pwsh
+        run: |
+          # NSIS resolves File paths relative to the .nsi's own dir (installer/),
+          # so stage into installer/package to match aye-aye-mask.nsi.
+          cmake --install build --config Release --prefix installer/package
+          $bin = "installer/package/obs-plugins/64bit"
+          Copy-Item (Join-Path $env:OpenCV_DIR "x64/vc16/bin/$env:OPENCV_DLL") $bin -Force
+          Copy-Item (Join-Path $env:ORT_ROOT "lib/onnxruntime.dll") $bin -Force
+          Get-ChildItem $bin
+
+      - name: Build installer (.exe)
+        shell: pwsh
+        run: |
+          choco install nsis -y --no-progress
+          & "C:/Program Files (x86)/NSIS/makensis.exe" installer/aye-aye-mask.nsi
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: aye-aye-mask-windows-installer
+          path: installer/*.exe
+
+      - name: Upload plugin (zip fallback)
+        uses: actions/upload-artifact@v4
+        with:
+          name: aye-aye-mask-windows-plugin
+          path: installer/package/**
