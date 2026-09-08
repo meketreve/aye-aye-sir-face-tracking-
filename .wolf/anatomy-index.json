@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "meta": {
+    "lastScanned": "2026-08-03T02:51:34.758Z",
+    "fileCount": 35,
+    "hits": 0,
+    "misses": 0,
+    "renderedHash": "e91fbf0816ae9232d7fa3acaea4f182f947e74bd7e8a2a2e95f11688f3f69963",
+    "storeUpdatedAt": "2026-08-03T02:51:34.759Z"
+  },
+  "files": {
+    "../../../../home/meketreve/.claude/settings.json": {
+      "description": "",
+      "tokens": 255,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "../../../../home/meketreve/.claude/plans/lively-exploring-brooks.md": {
+      "description": "Plano — Plugin OBS: Eye-Tracking Mask (rosto → máscara 3D)",
+      "tokens": 2230,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    ".gitignore": {
+      "description": "Git ignore rules",
+      "tokens": 151,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "CLAUDE.md": {
+      "description": "OpenWolf",
+      "tokens": 57,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "CMakeLists.txt": {
+      "description": "",
+      "tokens": 1254,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "README.md": {
+      "description": "Project documentation",
+      "tokens": 1469,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    ".claude/settings.json": {
+      "description": "",
+      "tokens": 441,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    ".claude/rules/openwolf.md": {
+      "description": "",
+      "tokens": 364,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    ".github/workflows/windows.yml": {
+      "description": "CI: windows",
+      "tokens": 1360,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "data/effects/mask.effect": {
+      "description": "Eye Mask Tracker — draws a textured quad whose corners are already projected",
+      "tokens": 401,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "data/locale/en-US.ini": {
+      "description": "",
+      "tokens": 279,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "data/locale/pt-BR.ini": {
+      "description": "",
+      "tokens": 313,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "installer/aye-aye-mask.nsi": {
+      "description": "",
+      "tokens": 704,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "installer/build-and-install.bat": {
+      "description": "",
+      "tokens": 1172,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "installer/build-and-package.ps1": {
+      "description": "",
+      "tokens": 841,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "installer/README.md": {
+      "description": "Project documentation",
+      "tokens": 488,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "scripts/fetch-models.sh": {
+      "description": "Download model files into data/models/.",
+      "tokens": 314,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "scripts/gen-facemesh-tables.py": {
+      "description": "Generate src/facemesh_tables.hpp from MediaPipe's canonical_face_model.obj.",
+      "tokens": 708,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/frame-grab.cpp": {
+      "description": "include \"frame-grab.hpp\"",
+      "tokens": 653,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/frame-grab.hpp": {
+      "description": "pragma once",
+      "tokens": 275,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/headpose.cpp": {
+      "description": "include \"headpose.hpp\"",
+      "tokens": 767,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/headpose.hpp": {
+      "description": "pragma once",
+      "tokens": 242,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/landmarks.cpp": {
+      "description": "LandmarkNet impl: FaceMesh ONNX via onnxruntime, crop→192 RGB NCHW, out 468×3 mapped to crop px.",
+      "tokens": 788,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/landmarks.hpp": {
+      "description": "LandmarkNet: MediaPipe FaceMesh 468pt wrapper + eye-corner indices (33/133/362/263).",
+      "tokens": 386,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/mask-filter.cpp": {
+      "description": "include <obs-module.h>",
+      "tokens": 4112,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/mask-filter.hpp": {
+      "description": "extern decl of mask_filter_info (obs_source_info).",
+      "tokens": 59,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/mask-renderer.cpp": {
+      "description": "include \"mask-renderer.hpp\"",
+      "tokens": 2235,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/mask-renderer.hpp": {
+      "description": "pragma once",
+      "tokens": 615,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/plugin-main.cpp": {
+      "description": "OBS module entry: OBS_DECLARE_MODULE, registers filter, module name/description, PLUGIN_VERSION.",
+      "tokens": 165,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/pose.cpp": {
+      "description": "include \"pose.hpp\"",
+      "tokens": 1310,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/pose.hpp": {
+      "description": "pragma once",
+      "tokens": 446,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/smoothing.cpp": {
+      "description": "include \"smoothing.hpp\"",
+      "tokens": 1171,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/smoothing.hpp": {
+      "description": "pragma once",
+      "tokens": 464,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/tracker.cpp": {
+      "description": "include \"tracker.hpp\"",
+      "tokens": 1614,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    },
+    "src/tracker.hpp": {
+      "description": "pragma once",
+      "tokens": 739,
+      "updatedAt": "2026-08-03T02:51:34.759Z",
+      "source": "md-import"
+    }
+  }
+}

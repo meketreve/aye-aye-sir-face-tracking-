@@ -1,6 +1,5 @@
 import * as path from "node:path";
-import { getWolfDir, ensureWolfDir, readJSON, writeJSON, estimateTokens, readStdin, normalizePath, getProjectDir } from "./shared.js";
-import { lookupEntry } from "./anatomy-store.js";
+import { getWolfDir, ensureWolfDir, readJSON, writeJSON, readMarkdown, parseAnatomy, estimateTokens, readStdin, normalizePath } from "./shared.js";
 async function main() {
     ensureWolfDir();
     const wolfDir = getWolfDir();
@@ -23,7 +22,7 @@ async function main() {
     }
     const normalizedFile = normalizePath(filePath);
     // Skip tracking for .wolf/ internal files — consistent with pre-read
-    const projectDir = normalizePath(getProjectDir());
+    const projectDir = normalizePath(process.env.CLAUDE_PROJECT_DIR || process.cwd());
     const relToProject = normalizedFile.startsWith(projectDir)
         ? normalizedFile.slice(projectDir.length).replace(/^\//, "")
         : "";
@@ -36,11 +35,21 @@ async function main() {
     const proseExts = new Set([".md", ".txt", ".rst"]);
     const type = codeExts.has(ext) ? "code" : proseExts.has(ext) ? "prose" : "mixed";
     let tokens = content ? estimateTokens(content, type) : 0;
-    // Fallback: if tool_output had no content, use the anatomy token estimate
+    // Fallback: if tool_output had no content, use anatomy token estimate
     if (tokens === 0) {
-        const entry = lookupEntry(wolfDir, projectDir, normalizedFile);
-        if (entry)
-            tokens = entry.tokens;
+        const anatomyContent = readMarkdown(path.join(wolfDir, "anatomy.md"));
+        const sections = parseAnatomy(anatomyContent);
+        for (const [sectionKey, entries] of sections) {
+            for (const entry of entries) {
+                const entryRelPath = normalizePath(path.join(sectionKey, entry.file));
+                if (normalizedFile.endsWith(entryRelPath) || normalizedFile.endsWith("/" + entryRelPath)) {
+                    tokens = entry.tokens;
+                    break;
+                }
+            }
+            if (tokens > 0)
+                break;
+        }
     }
     const session = readJSON(sessionFile, { files_read: {} });
     if (session.files_read[normalizedFile]) {
