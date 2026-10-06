@@ -1,5 +1,22 @@
 # Eye Mask Tracker — OBS plugin
 
+> [!IMPORTANT]
+> **This plugin has been absorbed into
+> [Meketreve OBS Essentials](https://github.com/meketreve/meketreve-obs-essentials)**,
+> a free OBS toolkit (Windows, Linux and macOS) that now carries the face mask
+> filter alongside its other tools. New versions and fixes ship only there;
+> this repository is no longer maintained. v0.1.0 below keeps working until you
+> switch, but do not install both: remove this plugin before installing the
+> toolkit.
+>
+> **Este plugin foi absorvido pelo
+> [Meketreve OBS Essentials](https://github.com/meketreve/meketreve-obs-essentials)**,
+> um kit de ferramentas gratuito para o OBS (Windows, Linux e macOS) que agora
+> traz o filtro de máscara no rosto junto com as outras ferramentas. Versões
+> novas e correções saem só lá; este repositório não é mais mantido. A v0.1.0
+> abaixo continua funcionando até você trocar, mas não instale os dois: remova
+> este plugin antes de instalar o kit.
+
 Native OBS video filter that tracks the face and applies an **image or video
 mask** to it in real time. Two render modes:
 
